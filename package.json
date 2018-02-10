@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "webpack": "webpack"
+  },
+  "dependencies": {
+    "compression": "^1.7.1",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "phaser-ce": "^2.10.0",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/socket.io-client": "^1.4.32",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  }
+}

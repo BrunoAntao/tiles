@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src/resourceEditor",
+        "outDir": "../../dist/resourceEditor",
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "es5",
+        "watch": true
+    }
+
+}

@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src/mapEditor",
+        "outDir": "../../dist/mapEditor",
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "es5",
+        "watch": true
+    }
+}
