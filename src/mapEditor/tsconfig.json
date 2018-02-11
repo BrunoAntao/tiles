@@ -3,7 +3,7 @@
         "rootDir": "./src/mapEditor",
         "outDir": "../../dist/mapEditor",
         "typeRoots": [
-            "../../typings",
+            "../../node_modules/@typs/", "../../typings",
         ],
         "sourceMap": true,
         "module": "commonjs",

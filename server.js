@@ -4,7 +4,7 @@ const fs = require('fs');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const port = 8080;
+const port = 80;
 
 app.set('view engine', 'ejs');
 app.use(compression());
@@ -49,6 +49,17 @@ http.listen(port, function () {
 
             console.log('User ' + socket.id + ': captured');
             fs.writeFileSync('image.png', c.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+
+        });
+
+        socket.on('resource', function (res) {
+
+            console.log('User ' + socket.id + ': resource ' + JSON.stringify(res));
+            let resources = JSON.parse(fs.readFileSync('./client/assets/resources.json'));
+
+            resources.push(res);
+
+            fs.writeFileSync('./client/assets/resources.json', JSON.stringify(resources));
 
         });
 
