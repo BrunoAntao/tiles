@@ -1,0 +1,6 @@
+{
+	"globalDevDependencies": {
+		"phaser": "file:typings/phaser-ce/typings.json",
+		"phaser-input": "file:typings/phaser-input/typings.json"
+	}
+}

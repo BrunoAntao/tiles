@@ -2,6 +2,9 @@
     "compilerOptions": {
         "rootDir": "./src/resourceEditor",
         "outDir": "../../dist/resourceEditor",
+        "typeRoots": [
+            "../../typings",
+        ],
         "sourceMap": true,
         "module": "commonjs",
         "target": "es5",

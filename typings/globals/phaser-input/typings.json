@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "C:\\Users\\User\\Desktop\\a\\tiles\\typings\\phaser-input\\typings.json",
+    "raw": "file:typings/phaser-input/typings.json",
+    "main": "phaser-input.d.ts",
+    "global": true,
+    "name": "phaser-input"
+  }
+}

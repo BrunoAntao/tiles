@@ -2,6 +2,9 @@
     "compilerOptions": {
         "rootDir": "./src/mapEditor",
         "outDir": "../../dist/mapEditor",
+        "typeRoots": [
+            "../../typings",
+        ],
         "sourceMap": true,
         "module": "commonjs",
         "target": "es5",
