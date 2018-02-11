@@ -3,7 +3,7 @@
         "rootDir": "./src/resourceEditor",
         "outDir": "../../dist/resourceEditor",
         "typeRoots": [
-            "../../node_modules/@typs/", "../../typings",
+            "../../node_modules/@types/", "../../typings",
         ],
         "sourceMap": true,
         "module": "commonjs",
