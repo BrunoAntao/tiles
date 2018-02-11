@@ -25,7 +25,6 @@
   * **Plank** : 2x Wood
   * **Stone** : 2x Stone piece
   * **Handle** : 2x Wood + 1x Stone
-  * **Bucket** : 2x Plank + 2x Stone
 
 ### Buildables:
  
@@ -37,10 +36,11 @@
   * **Bear attractor** : 3x Wood + 2x Honey
   * **Mother attractor** : 2x Animal Egg + 1x Stone + 1x Wood
 
-### Recipes
+### Recipes (from either resources or materials)
 
   * **Axe:** 1x Handle + 1x Stone
   * **Pickaxe** : 1x Handle + 2x Stone
   * **Sword** : 2x Handle + 1x Stone
   * **Cooked meat** : 1x Meat + Fire/Firecamp
   * **Spear** : 3x Stick + 2x Stone
+  * **Bucket** : 2x Plank + 2x Stone
