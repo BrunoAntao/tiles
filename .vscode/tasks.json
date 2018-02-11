@@ -20,6 +20,14 @@
             ]
         },
         {
+            "type": "typescript",
+            "tsconfig": "src\\game\\tsconfig.json",
+            "option": "watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ]
+        },
+        {
             "type": "npm",
             "script": "webpack",
             "problemMatcher": []

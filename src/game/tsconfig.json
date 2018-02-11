@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
-        "rootDir": "./src/mapEditor",
-        "outDir": "../../dist/mapEditor",
+        "rootDir": "./",
+        "outDir": "../../dist",
         "typeRoots": [
             "../../node_modules/@types/",
-            "../../typings"
+            "../../typings",
+            "../src/resourceEditor/resourcesData"
         ],
         "sourceMap": true,
         "module": "commonjs",
