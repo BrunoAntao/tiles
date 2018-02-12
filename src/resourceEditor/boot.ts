@@ -32,8 +32,6 @@ export class bootState extends Phaser.State {
 
     update() {
 
-
-
     }
 
 }

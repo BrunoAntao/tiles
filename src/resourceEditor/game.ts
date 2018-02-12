@@ -1,4 +1,3 @@
-/// <reference path="../../typings/phaser-input/phaser-input.d.ts" /> 
 import { socket } from "./boot";
 import { Display, Submit } from "./ui";
 

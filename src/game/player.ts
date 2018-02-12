@@ -1,8 +1,7 @@
-import { Math } from "phaser-ce";
-
 export class Player extends Phaser.Graphics {
 
     private state: Phaser.State;
+    public body: Phaser.Physics.Arcade.Body;
     private ctrls;
 
     constructor(state: Phaser.State, x: number, y: number) {
@@ -15,11 +14,11 @@ export class Player extends Phaser.Graphics {
         this.y = y;
 
         this.lineStyle(1, 0x33DDFF, 1);
-        this.arc(0, 0, 25, Math.degToRad(-90), Math.degToRad(90), false);
+        this.arc(0, 0, 25, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
         this.lineStyle(1, 0xCE33FF, 1);
-        this.arc(0, 0, 25, Math.degToRad(90), Math.degToRad(-90), false);
+        this.arc(0, 0, 25, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
 
-        this.state.physics.arcade.enable(this);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.ctrls = {
 
