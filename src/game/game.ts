@@ -26,7 +26,7 @@ export class gameState extends Phaser.State {
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.player = new Player(this, 200, 200);
+        this.player = new Player(this, 32, 20, 20);
 
     }
 
