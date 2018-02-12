@@ -1,5 +1,4 @@
 import { gameState } from "./game";
-import { ResourceData, RecipeData, ProductData } from "../resourceEditor/resourcesData"
 
 export class Game extends Phaser.Game {
 

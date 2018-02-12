@@ -3,7 +3,7 @@ import { Key } from "phaser-ce";
 export class Player extends Phaser.Graphics {
 
     private state: Phaser.State;
-    
+
     public body: Phaser.Physics.Arcade.Body;
     private ctrls;
 
@@ -23,8 +23,6 @@ export class Player extends Phaser.Graphics {
         this.lineStyle(1, 0xCE33FF, 1);
         this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
 
-        this.game.physics.enable(this, Phaser.Physics.ARCADE);
-
         this.ctrls = {
 
             W: this.state.input.keyboard.addKey(Phaser.Keyboard.W),
@@ -35,6 +33,7 @@ export class Player extends Phaser.Graphics {
         }
 
         state.add.existing(this);
+        
     }
 
     update() {
@@ -70,7 +69,6 @@ export class Player extends Phaser.Graphics {
             this.body.velocity.x = 150;
 
         }
-
 
     }
 
