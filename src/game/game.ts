@@ -7,7 +7,6 @@ export class gameState extends Phaser.State {
 
     preload() {
 
-        this.load.spritesheet('tile', '/client/assets/tile.png', 32, 32);
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.align(true, true);
         this.scale.setResizeCallback(function () {
@@ -15,7 +14,6 @@ export class gameState extends Phaser.State {
             this.scale.setMaximum();
 
         }, this);
-        this.load.json('tiles', 'client/assets/tiles.json');
 
     }
 
@@ -25,6 +23,8 @@ export class gameState extends Phaser.State {
         Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
         this.stage.backgroundColor = "#212121";
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.player = new Player(this, 200, 200);
 
