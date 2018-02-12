@@ -4,7 +4,7 @@ const fs = require('fs');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const port = 8080;
+const port = 80;
 
 app.set('view engine', 'ejs');
 app.use(compression());

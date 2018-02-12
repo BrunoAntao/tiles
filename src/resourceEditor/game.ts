@@ -1,4 +1,3 @@
-/// <reference path="../../typings/phaser-input/phaser-input.d.ts" /> 
 import { socket } from "./boot";
 import { Display, Submit } from "./ui";
 
@@ -12,7 +11,6 @@ export class gameState extends Phaser.State {
 
     preload() {
 
-        this.load.spritesheet('tile', '/client/assets/tile.png', 32, 32);
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.align(true, true);
         this.scale.setResizeCallback(function () {
@@ -20,7 +18,6 @@ export class gameState extends Phaser.State {
             this.scale.setMaximum();
 
         }, this);
-        this.load.json('tiles', 'client/assets/tiles.json');
 
     }
 
