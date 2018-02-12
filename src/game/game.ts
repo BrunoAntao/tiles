@@ -26,7 +26,7 @@ export class gameState extends Phaser.State {
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
         this.stage.backgroundColor = "#212121";
 
-        this.player = new Player(this, 200, 200);
+        this.player = new Player(this, 32, 2, 200, 200);
 
     }
 
