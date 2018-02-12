@@ -3,6 +3,7 @@ import { socket } from "./boot";
 export class Display extends Phaser.Graphics {
 
     private state: Phaser.State;
+    private label: Phaser.Text;
     private color: number;
 
     constructor(state: Phaser.State, x: number, y: number, color: number) {
@@ -20,6 +21,13 @@ export class Display extends Phaser.Graphics {
         this.drawRect(0, 0, this.state.game.width / 3, this.state.game.width / 3);
         this.endFill();
 
+        this.label = this.state.add.text(this.x, this.y, '');
+        this.label.boundsAlignH = 'center';
+        this.label.boundsAlignV = 'middle';
+        this.label.addColor('0x000000', 0);
+        this.label.fontSize = '100px';
+        this.label.setTextBounds(0, 0, this.state.game.width / 3, this.state.game.width / 3)
+
         state.add.existing(this);
     }
 
@@ -32,6 +40,28 @@ export class Display extends Phaser.Graphics {
         this.endFill();
 
         this.color = color;
+
+    }
+
+    setLabel(text: string) {
+
+        this.label.text = text.toUpperCase().charAt(0);
+
+    }
+
+    update() {
+
+        this.state.game.world.bringToTop(this.label);
+
+        var r = Math.floor(this.color / (256*256));
+        var g = Math.floor(this.color / 256) % 256;
+        var b = this.color % 256;
+
+        var ir = Math.floor((255 - r) * 0.5);
+        var ig = Math.floor((255 - g) * 0.5);
+        var ib = Math.floor((255 - b) * 0.5);
+
+        this.label.addColor('rgb(' + ir + ',' + ig + ',' + ib + ')', 0);
 
     }
 
