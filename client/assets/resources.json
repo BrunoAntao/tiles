@@ -1,1 +1,12 @@
-[{"type":"stone","quantity":"1","color":"0x212121"},{"type":"wood","quantity":"1","color":"0x663300"}]
+[
+    {
+        "type": "stone",
+        "quantity": "1",
+        "color": "0x212121"
+    },
+    {
+        "type": "wood",
+        "quantity": "1",
+        "color": "0x663300"
+    }
+]
