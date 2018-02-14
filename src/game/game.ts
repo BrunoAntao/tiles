@@ -67,11 +67,11 @@ export class gameState extends Phaser.State {
 
         this.resourcesData = this.cache.getJSON('resources');
 
-        this.randomResources();
+        this.randomResources(20);
 
-        this.randomWalls();
+        this.randomWalls(5);
 
-        this.randomFactories();
+        this.randomFactories(3);
 
     }
 
@@ -97,16 +97,6 @@ export class gameState extends Phaser.State {
 
         }
 
-        for (let i = 0; i < this.resourcesGroup.children.length; i++) {
-
-            if (this.game.physics.arcade.overlap(this.player, this.resourcesGroup.children[i])) {
-
-                //STUFF
-
-            }
-
-        }
-
         for (let i = 0; i < this.factoriesGroup.children.length; i++) {
 
             if (this.game.physics.arcade.collide(this.player, this.factoriesGroup.children[i])) {
@@ -119,29 +109,7 @@ export class gameState extends Phaser.State {
 
     }
 
-    randomWalls() {
-
-        let count: number = 3;
-
-        let maxX: number = this.game.width / 32;
-        let minX: number = 1;
-
-        let maxY: number = 1;
-        let minY: number = this.game.height / 32;
-
-        for (let i = 0; i < count; i++) {
-
-            let x: number = this.state.game.rnd.integerInRange(minX, maxX);
-            let y: number = this.state.game.rnd.integerInRange(minY, maxY);
-
-            this.wallsGroup.add(new Wall(this, 0x000000, x * 32, y * 32));
-
-        }
-    }
-
-    randomResources() {
-
-        let count: number = 10;
+    getRandomXY32() {
 
         let maxX: number = (this.game.width / 32) - 1;
         let minX: number = 1;
@@ -149,36 +117,42 @@ export class gameState extends Phaser.State {
         let maxY: number = 1;
         let minY: number = (this.game.height / 32 - 1);
 
+        let x: number = this.state.game.rnd.integerInRange(minX, maxX);
+        let y: number = this.state.game.rnd.integerInRange(minY, maxY);
+
+        return { x, y };
+
+    }
+
+    randomWalls(count: number) {
+
         for (let i = 0; i < count; i++) {
 
-            let x: number = this.state.game.rnd.integerInRange(minX, maxX);
-            let y: number = this.state.game.rnd.integerInRange(minY, maxY);
-
-            let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-
-            this.resourcesGroup.add(new Resource(this, this.resourcesData[rIndex], x * 32, y * 32));
+            let pos = this.getRandomXY32();
+            this.wallsGroup.add(new Wall(this, 0x000000, pos.x * 32, pos.y * 32));
 
         }
     }
 
-    randomFactories() {
-
-        let count: number = 2;
-
-        let maxX: number = this.game.width / 32;
-        let minX: number = 0;
-
-        let maxY: number = 0;
-        let minY: number = this.game.height / 32;
+    randomResources(count: number) {
 
         for (let i = 0; i < count; i++) {
 
-            let x: number = this.state.game.rnd.integerInRange(minX, maxX);
-            let y: number = this.state.game.rnd.integerInRange(minY, maxY);
-
+            let pos = this.getRandomXY32();
             let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
+            this.resourcesGroup.add(new Resource(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32));
 
-            this.factoriesGroup.add(new Factory(this, this.resourcesData[rIndex], x * 32, y * 32));
+        }
+
+    }
+
+    randomFactories(count: number) {
+
+        for (let i = 0; i < count; i++) {
+
+            let pos = this.getRandomXY32();
+            let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
+            this.factoriesGroup.add(new Factory(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32));
 
         }
     }

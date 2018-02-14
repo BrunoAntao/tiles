@@ -6,19 +6,16 @@ export class Factory extends Phaser.Graphics {
 
     public body: Phaser.Physics.Arcade.Body;
 
-    text: Phaser.Text;
-
     constructor(state: Phaser.State, data: ResourceData, x: number, y: number) {
 
         super(state.game, x, y);
 
         this.resourceData = data;
 
-        this.lineStyle(4, data.color);
+        this.lineStyle(2, data.color);
         this.drawRect(-32 / 2, -32 / 2, 32, 32);
 
-        this.text = this.game.add.text(-8, -16, "F");
-        this.addChild(this.text);
+        this.addChild(this.game.add.text(-32 / 4, -32 / 2, "F"));
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.immovable = true;
