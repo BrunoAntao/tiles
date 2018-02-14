@@ -1,4 +1,4 @@
-export class Wall extends Phaser.Graphics{
+export class Wall extends Phaser.Graphics {
 
     public body: Phaser.Physics.Arcade.Body;
 
@@ -7,7 +7,7 @@ export class Wall extends Phaser.Graphics{
         super(state.game, x, y);
 
         this.beginFill(color);
-        this.drawRect(-32/2, -32/2, 32, 32);
+        this.drawRect(-32 / 2, -32 / 2, 32, 32);
         this.endFill();
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
