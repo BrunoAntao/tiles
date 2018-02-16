@@ -11,9 +11,9 @@ export class ResourceData {
         this.color = color;
         this.quantity = quantity;
         this.hardness = hardness;
-        
+
     }
-        
+
 }
 
 export class ProductData {
@@ -22,13 +22,15 @@ export class ProductData {
     public recipe: RecipeData;
     public x: number;
     public y: number;
+    public power: number;
 
-    constructor(type: string, recipe: RecipeData, x: number = -1, y: number = -1) {
+    constructor(type: string, recipe: RecipeData, x: number = -1, y: number = -1, power: number = 1) {
 
         this.recipe = recipe;
-        this.type = type; 
+        this.type = type;
         this.x = x;
         this.y = y;
+        this.power = power;
 
     }
 
@@ -36,9 +38,9 @@ export class ProductData {
 
 export class RecipeData {
 
-    required:Array<object>;
+    required: Array<object>;
 
-    constructor(required:Array<object>) {
+    constructor(required: Array<object>) {
 
         this.required = required;
 

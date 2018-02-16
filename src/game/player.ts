@@ -1,4 +1,5 @@
 import { Key } from "phaser-ce";
+import { ResourceData, ProductData } from "../resourceEditor/resourcesData";
 
 export class Player extends Phaser.Graphics {
 
@@ -9,7 +10,11 @@ export class Player extends Phaser.Graphics {
 
     private diameter: number;
 
-    constructor(state: Phaser.State, diameter: number =  32, x: number, y: number) {
+    public inventory: Inventory;
+
+    public equipped: ProductData;
+
+    constructor(state: Phaser.State, diameter: number = 32, x: number, y: number) {
 
         super(state.game);
 
@@ -17,6 +22,8 @@ export class Player extends Phaser.Graphics {
         this.y = y;
 
         this.state = state;
+
+        this.inventory = new Inventory();
 
         this.lineStyle(1, 0x33DDFF, 1);
         this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
@@ -33,7 +40,6 @@ export class Player extends Phaser.Graphics {
         }
 
         state.add.existing(this);
-        
     }
 
     update() {
@@ -72,4 +78,55 @@ export class Player extends Phaser.Graphics {
 
     }
 
+
 }
+
+export class InventoryItem {
+
+    public type: string;
+    public quantity: number;
+
+    constructor(type: string, quantity: number = 1) {
+
+        this.type = type;
+        this.quantity = quantity;
+    }
+
+}
+
+export class Inventory {
+
+    public items: Array<InventoryItem>;
+
+    constructor() {
+
+        this.items = new Array<InventoryItem>();
+
+    }
+
+    add(item: InventoryItem) {
+
+        console.log(this.items);
+
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].type === item.type) {
+                this.items[i].quantity = parseInt(this.items[i].quantity.toString()) + parseInt(item.quantity.toString());
+                return;
+            }
+        }
+
+        this.items.push(item);
+    }
+
+    use(item: InventoryItem, quantity: number = item.quantity) {
+
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].type === item.type) {
+                this.items[i].quantity = parseInt(this.items[i].quantity.toString()) - parseInt(item.quantity.toString());
+                return;
+            }
+        }
+    }
+
+}
+

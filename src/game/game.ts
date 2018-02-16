@@ -1,21 +1,25 @@
 import { socket } from "./boot";
-import { Player } from "./player";
-import { ResourceData } from "../resourceEditor/resourcesData";
+import { Player, InventoryItem } from "./player";
+import { ResourceData, ProductData, RecipeData } from "../resourceEditor/resourcesData";
 import { Resource } from "./resource";
 import { RandomDataGenerator } from "phaser-ce";
 import { Wall } from "./wall";
 import { Factory } from "./factory";
 
+export var player: Player;
+
 export class gameState extends Phaser.State {
 
     resourcesData: Array<ResourceData>;
-
-    player: Player;
 
     playerGroup: Phaser.Group;
     resourcesGroup: Phaser.Group;
     factoriesGroup: Phaser.Group;
     wallsGroup: Phaser.Group;
+
+    //player: Player;
+
+    resources: Array<Resource>;
 
     preload() {
 
@@ -48,6 +52,17 @@ export class gameState extends Phaser.State {
 
         })
 
+
+        this.input.keyboard.addCallbacks(this, function (event) {
+
+            if (event.key === 'ç') {
+
+                player.equipped = new ProductData('pickaxe', new RecipeData(new Array<Object>()), 0, 0, 5);
+
+            }
+
+        })
+
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.playerGroup = this.game.add.group();
@@ -55,13 +70,15 @@ export class gameState extends Phaser.State {
         this.factoriesGroup = this.game.add.group();
         this.wallsGroup = this.game.add.group();
 
+        this.resources = new Array<Resource>();
+
         this.playerGroup.enableBody = true;
         this.resourcesGroup.enableBody = true;
         this.factoriesGroup.enableBody = true;
         this.wallsGroup.enableBody = true;
 
-        this.player = new Player(this, 32, 20, 20);
-        this.playerGroup.add(this.player);
+        player = new Player(this, 32, 20, 20);
+        this.playerGroup.add(player);
 
         this.game.world.bringToTop(this.playerGroup);
 
@@ -77,19 +94,26 @@ export class gameState extends Phaser.State {
 
     update() {
 
-        for (let i = 0; i < this.resourcesGroup.children.length; i++) {
+        for (let i = 0; i < this.resources.length; i++) {
 
-            if (this.game.physics.arcade.overlap(this.player, this.resourcesGroup.children[i])) {
+            let element = this.resources[i];
 
-                //STUFF
+            if (this.game.physics.arcade.overlap(player, element)) {
 
+                if (element.playerCanGet(player)) {
+                    let ii: InventoryItem = new InventoryItem(element.resourceData.type, element.resourceData.quantity);
+                    player.inventory.add(ii);
+                    element.kill();
+                }
+
+                break;
             }
 
         }
 
         for (let i = 0; i < this.wallsGroup.children.length; i++) {
 
-            if (this.game.physics.arcade.collide(this.player, this.wallsGroup.children[i])) {
+            if (this.game.physics.arcade.collide(player, this.wallsGroup.children[i])) {
 
                 //STUFF
 
@@ -99,7 +123,7 @@ export class gameState extends Phaser.State {
 
         for (let i = 0; i < this.factoriesGroup.children.length; i++) {
 
-            if (this.game.physics.arcade.collide(this.player, this.factoriesGroup.children[i])) {
+            if (this.game.physics.arcade.collide(player, this.factoriesGroup.children[i])) {
 
                 //STUFF
 
@@ -140,7 +164,9 @@ export class gameState extends Phaser.State {
 
             let pos = this.getRandomXY32();
             let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-            this.resourcesGroup.add(new Resource(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32));
+            let r = new Resource(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32);
+            this.resources.push(r);
+            this.resourcesGroup.add(r);
 
         }
 

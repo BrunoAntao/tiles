@@ -2,7 +2,8 @@
     {
         "type": "stone",
         "quantity": "1",
-        "color": "0x212121"
+        "color": "0x212121",
+        "hardness": "1"
     },
     {
         "type": "wood",
