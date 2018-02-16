@@ -107,11 +107,11 @@ export class gameState extends Phaser.State {
 
     getRandomXY32() {
 
-        let maxX: number = (this.game.width / 32) - 1;
-        let minX: number = 1;
+        let maxX: number = this.game.width / 32;
+        let minX: number = 0;
 
-        let maxY: number = 1;
-        let minY: number = (this.game.height / 32 - 1);
+        let maxY: number = this.game.height / 32;
+        let minY: number = 0;
 
         let x: number = this.state.game.rnd.integerInRange(minX, maxX);
         let y: number = this.state.game.rnd.integerInRange(minY, maxY);

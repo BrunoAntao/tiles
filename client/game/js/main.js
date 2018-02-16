@@ -196,10 +196,10 @@ var gameState = /** @class */ (function (_super) {
         this.game.physics.arcade.collide(exports.player, this.factoriesGroup);
     };
     gameState.prototype.getRandomXY32 = function () {
-        var maxX = (this.game.width / 32) - 1;
-        var minX = 1;
-        var maxY = 1;
-        var minY = (this.game.height / 32 - 1);
+        var maxX = this.game.width / 32;
+        var minX = 0;
+        var maxY = this.game.height / 32;
+        var minY = 0;
         var x = this.state.game.rnd.integerInRange(minX, maxX);
         var y = this.state.game.rnd.integerInRange(minY, maxY);
         return { x: x, y: y };
