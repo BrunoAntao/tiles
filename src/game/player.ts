@@ -24,6 +24,8 @@ export class Player extends Phaser.Graphics {
         this.state = state;
 
         this.inventory = new Inventory();
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.setSize(32, 32, -16, -16);
 
         this.lineStyle(1, 0x33DDFF, 1);
         this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
@@ -40,6 +42,12 @@ export class Player extends Phaser.Graphics {
         }
 
         state.add.existing(this);
+    }
+
+    render() {
+
+        this.game.debug.body(this);
+
     }
 
     update() {

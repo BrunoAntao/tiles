@@ -185,27 +185,15 @@ var gameState = /** @class */ (function (_super) {
         this.randomFactories(3);
     };
     gameState.prototype.update = function () {
-        for (var i = 0; i < this.resources.length; i++) {
-            var element = this.resources[i];
-            if (this.game.physics.arcade.overlap(exports.player, element)) {
-                if (element.playerCanGet(exports.player)) {
-                    var ii = new player_1.InventoryItem(element.resourceData.type, element.resourceData.quantity);
-                    exports.player.inventory.add(ii);
-                    element.kill();
-                }
-                break;
+        this.game.physics.arcade.overlap(exports.player, this.resourcesGroup, function (player, resource) {
+            if (resource.playerCanGet(player)) {
+                var ii = new player_1.InventoryItem(resource.resourceData.type, resource.resourceData.quantity);
+                player.inventory.add(ii);
+                resource.kill();
             }
-        }
-        for (var i = 0; i < this.wallsGroup.children.length; i++) {
-            if (this.game.physics.arcade.collide(exports.player, this.wallsGroup.children[i])) {
-                //STUFF
-            }
-        }
-        for (var i = 0; i < this.factoriesGroup.children.length; i++) {
-            if (this.game.physics.arcade.collide(exports.player, this.factoriesGroup.children[i])) {
-                //STUFF
-            }
-        }
+        });
+        this.game.physics.arcade.collide(exports.player, this.wallsGroup);
+        this.game.physics.arcade.collide(exports.player, this.factoriesGroup);
     };
     gameState.prototype.getRandomXY32 = function () {
         var maxX = (this.game.width / 32) - 1;
@@ -269,6 +257,8 @@ var Player = /** @class */ (function (_super) {
         _this.y = y;
         _this.state = state;
         _this.inventory = new Inventory();
+        _this.game.physics.enable(_this, Phaser.Physics.ARCADE);
+        _this.body.setSize(32, 32, -16, -16);
         _this.lineStyle(1, 0x33DDFF, 1);
         _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
         _this.lineStyle(1, 0xCE33FF, 1);
@@ -282,6 +272,9 @@ var Player = /** @class */ (function (_super) {
         state.add.existing(_this);
         return _this;
     }
+    Player.prototype.render = function () {
+        this.game.debug.body(this);
+    };
     Player.prototype.update = function () {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;

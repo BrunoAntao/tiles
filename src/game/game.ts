@@ -89,42 +89,19 @@ export class gameState extends Phaser.State {
 
     update() {
 
-        for (let i = 0; i < this.resources.length; i++) {
+        this.game.physics.arcade.overlap(player, this.resourcesGroup, function (player, resource) {
 
-            let element = this.resources[i];
-
-            if (this.game.physics.arcade.overlap(player, element)) {
-
-                if (element.playerCanGet(player)) {
-                    let ii: InventoryItem = new InventoryItem(element.resourceData.type, element.resourceData.quantity);
-                    player.inventory.add(ii);
-                    element.kill();
-                }
-
-                break;
+            if (resource.playerCanGet(player)) {
+                let ii: InventoryItem = new InventoryItem(resource.resourceData.type, resource.resourceData.quantity);
+                player.inventory.add(ii);
+                resource.kill();
             }
 
-        }
+        })
 
-        for (let i = 0; i < this.wallsGroup.children.length; i++) {
+        this.game.physics.arcade.collide(player, this.wallsGroup);
 
-            if (this.game.physics.arcade.collide(player, this.wallsGroup.children[i])) {
-
-                //STUFF
-
-            }
-
-        }
-
-        for (let i = 0; i < this.factoriesGroup.children.length; i++) {
-
-            if (this.game.physics.arcade.collide(player, this.factoriesGroup.children[i])) {
-
-                //STUFF
-
-            }
-
-        }
+        this.game.physics.arcade.collide(player, this.factoriesGroup);
 
     }
 
