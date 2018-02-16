@@ -48,7 +48,21 @@ http.listen(port, function () {
         socket.on('capture', function (c) {
 
             console.log('User ' + socket.id + ': captured');
-            fs.writeFileSync('image.png', c.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+            if (!fs.existsSync('./screenshots')) {
+
+                fs.mkdir('./screenshots');
+
+            }
+
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+            var secconds = date.getSeconds()
+
+            fs.writeFileSync('./screenshots/' + month+ '.'+ day+ '.'+ year+ ' - '+ hour+ ' '+ minutes+ ' '+ secconds + '.png', c.replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
         });
 
