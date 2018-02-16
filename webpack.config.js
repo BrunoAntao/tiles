@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = [
     {
         entry: './src/mapEditor/boot.ts',
-        devtool: 'so',
+        devtool: 'source-map',
         module: {
             rules: [
                 {

@@ -176,7 +176,7 @@ var gameState = /** @class */ (function (_super) {
         this.resourcesGroup.enableBody = true;
         this.factoriesGroup.enableBody = true;
         this.wallsGroup.enableBody = true;
-        exports.player = new player_1.Player(this, 32, 20, 20);
+        exports.player = new player_1.Player(this, 32, 16, 16);
         this.playerGroup.add(exports.player);
         this.game.world.bringToTop(this.playerGroup);
         this.resourcesData = this.cache.getJSON('resources');
@@ -257,12 +257,15 @@ var Player = /** @class */ (function (_super) {
         _this.y = y;
         _this.state = state;
         _this.inventory = new Inventory();
+        _this.lineStyle(1, 0xff0000, 1);
+        _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(0), false);
+        _this.lineStyle(1, 0x0000ff, 1);
+        _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(0), Phaser.Math.degToRad(90), false);
+        _this.lineStyle(1, 0x00ff00, 1);
+        _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
         _this.game.physics.enable(_this, Phaser.Physics.ARCADE);
         _this.body.setSize(32, 32, -16, -16);
-        _this.lineStyle(1, 0x33DDFF, 1);
-        _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
-        _this.lineStyle(1, 0xCE33FF, 1);
-        _this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
+        _this.body.collideWorldBounds = true;
         _this.ctrls = {
             W: _this.state.input.keyboard.addKey(Phaser.Keyboard.W),
             A: _this.state.input.keyboard.addKey(Phaser.Keyboard.A),

@@ -72,7 +72,7 @@ export class gameState extends Phaser.State {
         this.factoriesGroup.enableBody = true;
         this.wallsGroup.enableBody = true;
 
-        player = new Player(this, 32, 20, 20);
+        player = new Player(this, 32, 16, 16);
         this.playerGroup.add(player);
 
         this.game.world.bringToTop(this.playerGroup);

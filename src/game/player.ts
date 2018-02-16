@@ -24,13 +24,17 @@ export class Player extends Phaser.Graphics {
         this.state = state;
 
         this.inventory = new Inventory();
+
+        this.lineStyle(1, 0xff0000, 1);
+        this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(0), false);
+        this.lineStyle(1, 0x0000ff, 1);
+        this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(0), Phaser.Math.degToRad(90), false);
+        this.lineStyle(1, 0x00ff00, 1);
+        this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
+
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setSize(32, 32, -16, -16);
-
-        this.lineStyle(1, 0x33DDFF, 1);
-        this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(-90), Phaser.Math.degToRad(90), false);
-        this.lineStyle(1, 0xCE33FF, 1);
-        this.arc(0, 0, diameter / 2, Phaser.Math.degToRad(90), Phaser.Math.degToRad(-90), false);
+        this.body.collideWorldBounds = true;
 
         this.ctrls = {
 
