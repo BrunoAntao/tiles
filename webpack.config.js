@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = [
     {
-        entry: './dist/mapEditor/boot.js',
-        devtool: 'inline-source-map',
+        entry: './src/mapEditor/boot.ts',
+        devtool: 'so',
         module: {
             rules: [
                 {
@@ -23,8 +23,8 @@ module.exports = [
         watch: true
     },
     {
-        entry: './dist/resourceEditor/boot.js',
-        devtool: 'inline-source-map',
+        entry: './src/resourceEditor/boot.ts',
+        devtool: 'source-map',
         module: {
             rules: [
                 {
@@ -44,8 +44,8 @@ module.exports = [
         watch: true
     },
     {
-        entry: './dist/game/boot.js',
-        devtool: 'inline-source-map',
+        entry: './src/game/boot.ts',
+        devtool: 'source-map',
         module: {
             rules: [
                 {

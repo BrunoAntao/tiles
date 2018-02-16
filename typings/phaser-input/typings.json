@@ -1,0 +1,6 @@
+{
+    "name": "phaser-input",
+    "main": "phaser-input.d.ts",
+    "files": ["phaser-input.d.ts"],
+    "global": true
+}

@@ -4,7 +4,7 @@ export class Game extends Phaser.Game {
 
     constructor() {
 
-        super(960, 540, Phaser.CANVAS, 'game', null, null, false, false);
+        super(960, 512, Phaser.CANVAS, 'game', null, null, false, false);
 
         this.state.add('Boot', bootState);
         this.state.add('Game', gameState);
