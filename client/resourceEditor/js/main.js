@@ -180,7 +180,31 @@ var gameState = /** @class */ (function (_super) {
                 placeHolder: 'Quantity',
                 type: PhaserInput.InputType.number
             }),
-            color: this.game.add.inputField(this.game.width / 3 * 2, this.game.height / 10 * 4, {
+            hardness: this.game.add.inputField(this.game.width / 3 * 2, this.game.height / 10 * 4, {
+                font: '18px Arial',
+                fill: '#212121',
+                fontWeight: 'bold',
+                width: 150,
+                padding: 8,
+                borderWidth: 1,
+                borderColor: '#000',
+                borderRadius: 6,
+                placeHolder: 'Hardness',
+                type: PhaserInput.InputType.number
+            }),
+            tool: this.game.add.inputField(this.game.width / 3 * 2, this.game.height / 10 * 5, {
+                font: '18px Arial',
+                fill: '#212121',
+                fontWeight: 'bold',
+                width: 150,
+                padding: 8,
+                borderWidth: 1,
+                borderColor: '#000',
+                borderRadius: 6,
+                placeHolder: 'Tool',
+                type: PhaserInput.InputType.text
+            }),
+            color: this.game.add.inputField(this.game.width / 3 * 2, this.game.height / 10 * 6, {
                 font: '18px Arial',
                 fill: '#212121',
                 fontWeight: 'bold',
@@ -200,7 +224,7 @@ var gameState = /** @class */ (function (_super) {
         this.menu.color.focusOut.add(function () {
             display.setColor(parseInt(this.value));
         }, this.menu.color);
-        var submit = new ui_1.Submit(this, this.game.width / 3 * 2, this.game.height / 10 * 5);
+        var submit = new ui_1.Submit(this, this.game.width / 3 * 2, this.game.height / 10 * 7);
     };
     gameState.prototype.update = function () {
     };
@@ -287,12 +311,20 @@ var Submit = /** @class */ (function (_super) {
         _this.label.setTextBounds(0, 0, 170, 32);
         _this.inputEnabled = true;
         _this.events.onInputDown.add(function (submit) {
-            var data = {
-                type: submit.state.menu.type.value,
-                quantity: parseInt(submit.state.menu.quantity.value),
-                color: submit.state.menu.color.value
-            };
-            boot_1.socket.emit('resource', data);
+            if (submit.state.menu.type.value &&
+                parseInt(submit.state.menu.quantity.value) &&
+                parseInt(submit.state.menu.hardness.value) &&
+                submit.state.menu.tool.value &&
+                submit.state.menu.color.value) {
+                var data = {
+                    type: submit.state.menu.type.value,
+                    quantity: parseInt(submit.state.menu.quantity.value),
+                    hardness: parseInt(submit.state.menu.hardness.value),
+                    tool: submit.state.menu.tool.value,
+                    color: submit.state.menu.color.value
+                };
+                boot_1.socket.emit('resource', data);
+            }
         }, _this);
         state.add.existing(_this);
         return _this;

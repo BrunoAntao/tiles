@@ -53,7 +53,7 @@ export class Display extends Phaser.Graphics {
 
         this.state.game.world.bringToTop(this.label);
 
-        var r = Math.floor(this.color / (256*256));
+        var r = Math.floor(this.color / (256 * 256));
         var g = Math.floor(this.color / 256) % 256;
         var b = this.color % 256;
 
@@ -93,15 +93,26 @@ export class Submit extends Phaser.Graphics {
 
         this.events.onInputDown.add(function (submit) {
 
-            let data = {
+            if (submit.state.menu.type.value &&
+                parseInt(submit.state.menu.quantity.value) &&
+                parseInt(submit.state.menu.hardness.value) &&
+                submit.state.menu.tool.value &&
+                submit.state.menu.color.value
+            ) {
 
-                type: submit.state.menu.type.value,
-                quantity: parseInt(submit.state.menu.quantity.value),
-                color: submit.state.menu.color.value
+                let data = {
 
-            };
+                    type: submit.state.menu.type.value,
+                    quantity: parseInt(submit.state.menu.quantity.value),
+                    hardness: parseInt(submit.state.menu.hardness.value),
+                    tool: submit.state.menu.tool.value,
+                    color: submit.state.menu.color.value
 
-            socket.emit('resource', data);
+                };
+
+                socket.emit('resource', data);
+
+            }
 
         }, this)
 

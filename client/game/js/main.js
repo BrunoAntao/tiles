@@ -402,7 +402,7 @@ var Resource = /** @class */ (function (_super) {
         var _this = _super.call(this, state.game, x, y) || this;
         _this.resourceData = data;
         _this.beginFill(data.color);
-        _this.drawRect(-32 / 2, -32 / 2, 32, 32);
+        _this.drawRect(0, 0, 32, 32);
         _this.endFill();
         state.add.existing(_this);
         return _this;
@@ -442,7 +442,7 @@ var Wall = /** @class */ (function (_super) {
     function Wall(state, color, x, y) {
         var _this = _super.call(this, state.game, x, y) || this;
         _this.beginFill(color);
-        _this.drawRect(-32 / 2, -32 / 2, 32, 32);
+        _this.drawRect(0, 0, 32, 32);
         _this.endFill();
         _this.game.physics.enable(_this, Phaser.Physics.ARCADE);
         _this.body.immovable = true;
@@ -477,8 +477,12 @@ var Factory = /** @class */ (function (_super) {
         var _this = _super.call(this, state.game, x, y) || this;
         _this.resourceData = data;
         _this.lineStyle(2, data.color);
-        _this.drawRect(-32 / 2, -32 / 2, 32, 32);
-        _this.addChild(_this.game.add.text(-32 / 4, -32 / 2, "F"));
+        _this.drawRect(0, 0, 32, 32);
+        var text = _this.game.add.text(0, 0, "F");
+        text.boundsAlignH = 'center';
+        text.boundsAlignV = 'middle';
+        text.setTextBounds(0, 0, 32, 32);
+        _this.addChild(text);
         _this.game.physics.enable(_this, Phaser.Physics.ARCADE);
         _this.body.immovable = true;
         state.add.existing(_this);
