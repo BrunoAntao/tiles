@@ -50,7 +50,7 @@ http.listen(port, function () {
             console.log('User ' + socket.id + ': captured');
             if (!fs.existsSync('./screenshots')) {
 
-                fs.mkdir('./screenshots');
+                fs.mkdirSync('./screenshots');
 
             }
 
@@ -62,7 +62,7 @@ http.listen(port, function () {
             var minutes = date.getMinutes();
             var secconds = date.getSeconds()
 
-            fs.writeFileSync('./screenshots/' + day+ '.'+ month+ '.'+ year+ ' - '+ hour+ ' '+ minutes+ ' '+ secconds + '.png', c.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+            fs.writeFileSync('./screenshots/' + day + '.' + month + '.' + year + ' - ' + hour + ' ' + minutes + ' ' + secconds + '.png', c.replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
         });
 
