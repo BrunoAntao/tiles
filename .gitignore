@@ -2,3 +2,5 @@
 /dist/
 /maps/
 /screenshots/
+/server/*
+!/server/config.json
