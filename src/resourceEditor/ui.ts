@@ -96,7 +96,7 @@ export class Submit extends Phaser.Graphics {
             let data = {
 
                 type: submit.state.menu.type.value,
-                quantity: submit.state.menu.quantity.value,
+                quantity: parseInt(submit.state.menu.quantity.value),
                 color: submit.state.menu.color.value
 
             };

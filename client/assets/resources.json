@@ -9,5 +9,10 @@
         "type": "wood",
         "quantity": 1,
         "color": "0x663300"
+    },
+    {
+        "type": "ice",
+        "quantity": 1,
+        "color": "0x66ccff"
     }
 ]
