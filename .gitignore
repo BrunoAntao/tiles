@@ -1,5 +1,5 @@
-/node_modules/
-/dist/
-/maps/
-/screenshots/
-/server/config.json
+node_modules/
+dist/
+maps/
+screenshots/
+server/config.json
