@@ -110,7 +110,7 @@ export class Inventory {
 
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].type === item.type) {
-                this.items[i].quantity = parseInt(this.items[i].quantity.toString()) + parseInt(item.quantity.toString());
+                this.items[i].quantity += item.quantity;
                 return;
             }
         }
@@ -122,7 +122,7 @@ export class Inventory {
 
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].type === item.type) {
-                this.items[i].quantity = parseInt(this.items[i].quantity.toString()) - parseInt(item.quantity.toString());
+                this.items[i].quantity -= item.quantity;
                 return;
             }
         }

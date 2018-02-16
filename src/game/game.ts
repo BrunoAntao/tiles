@@ -44,20 +44,15 @@ export class gameState extends Phaser.State {
 
         this.input.keyboard.addCallbacks(this, function (event) {
 
-            if (event.key === 'p') {
+            switch (event.key) {
 
-                socket.emit('capture', this.game.canvas.toDataURL())
+                case 'p':
+                    socket.emit('capture', this.game.canvas.toDataURL())
+                    break;
 
-            }
-
-        })
-
-
-        this.input.keyboard.addCallbacks(this, function (event) {
-
-            if (event.key === 'ç') {
-
-                player.equipped = new ProductData('pickaxe', new RecipeData(new Array<Object>()), 0, 0, 5);
+                case 'ç':
+                    player.equipped = new ProductData('pickaxe', new RecipeData(new Array<Object>()), 0, 0, 5);
+                    break;
 
             }
 
