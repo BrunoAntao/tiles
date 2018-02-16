@@ -18,7 +18,7 @@ export class gameState extends Phaser.State {
             this.scale.setMaximum();
 
         }, this);
-        this.load.json('tiles', 'client/assets/tiles.json');
+        this.load.json('resources', 'client/assets/resources.json');
 
     }
 
@@ -37,7 +37,7 @@ export class gameState extends Phaser.State {
 
         new MapEditor(this, 10, 10);
 
-        let items:Array<Item> = this.cache.getJSON('tiles');
+        let items:Array<Item> = this.cache.getJSON('resources');
         global.selected.primary = items[0];
         global.selected.secondary = null;
         //socket.emit('capture', this.game.canvas.toDataURL());

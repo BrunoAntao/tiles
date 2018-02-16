@@ -448,7 +448,7 @@ var gameState = /** @class */ (function (_super) {
         this.scale.setResizeCallback(function () {
             this.scale.setMaximum();
         }, this);
-        this.load.json('tiles', 'client/assets/tiles.json');
+        this.load.json('resources', 'client/assets/resources.json');
     };
     gameState.prototype.create = function () {
         this.game.renderer.renderSession.roundPixels = true;
@@ -459,7 +459,7 @@ var gameState = /** @class */ (function (_super) {
             ctrl: this.input.keyboard.addKey(Phaser.Keyboard.CONTROL)
         };
         new rts_1.MapEditor(this, 10, 10);
-        var items = this.cache.getJSON('tiles');
+        var items = this.cache.getJSON('resources');
         boot_1.global.selected.primary = items[0];
         boot_1.global.selected.secondary = null;
         //socket.emit('capture', this.game.canvas.toDataURL());
