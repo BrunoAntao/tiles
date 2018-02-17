@@ -18,4 +18,11 @@ module.exports = function (app) {
 
     });
 
+    app.get('/sprite', function (req, res) {
+
+        res.render('spriteEditor.ejs');
+
+    });
+
+
 };
