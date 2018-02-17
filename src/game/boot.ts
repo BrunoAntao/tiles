@@ -35,6 +35,12 @@ export class bootState extends Phaser.State {
 
 }
 
+export var global = {
+
+    resources : []
+
+};
+
 export let socket = io();
 
 window.onload = () => {

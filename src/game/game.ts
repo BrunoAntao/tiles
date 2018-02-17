@@ -1,4 +1,4 @@
-import { socket } from "./boot";
+import { socket, global } from "./boot";
 import { Player, InventoryItem } from "./player";
 import { ResourceData, ProductData, RecipeData } from "../resourceEditor/resourcesData";
 import { Resource } from "./resource";
@@ -86,6 +86,7 @@ export class gameState extends Phaser.State {
         this.game.world.bringToTop(this.playerGroup);
 
         this.resourcesData = this.cache.getJSON('resources');
+        global.resources = this.resourcesData;
 
         this.randomResources(20);
 

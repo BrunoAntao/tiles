@@ -109,6 +109,9 @@ var bootState = /** @class */ (function (_super) {
     return bootState;
 }(Phaser.State));
 exports.bootState = bootState;
+exports.global = {
+    resources: []
+};
 exports.socket = io();
 window.onload = function () {
     var game = new Game();
@@ -185,6 +188,7 @@ var gameState = /** @class */ (function (_super) {
         this.playerGroup.add(exports.player);
         this.game.world.bringToTop(this.playerGroup);
         this.resourcesData = this.cache.getJSON('resources');
+        boot_1.global.resources = this.resourcesData;
         this.randomResources(20);
         this.randomWalls(5);
         this.randomFactories(3);
@@ -513,35 +517,28 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var boot_1 = __webpack_require__(0);
 var InventoryPanel = /** @class */ (function (_super) {
     __extends(InventoryPanel, _super);
     //30 x 16
     function InventoryPanel(state, x, y, w, h, slots, inventory) {
         var _this = _super.call(this, state.game) || this;
+        _this.x = x * 32;
+        _this.y = y * 32;
         _this.state = state;
         _this.bgColor = 0x696969;
         _this.beginFill(0x808080, 0.5);
         _this.lineStyle(4, _this.bgColor);
-        _this.drawRect(x * 32, y * 32, 32 * w, 32 * h);
+        _this.drawRect(0, 0, 32 * w, 32 * h);
         _this.endFill();
         _this.inventory = inventory;
         _this.freeSlotLast = 0;
-        _this.slots = new Array(w * h);
         _this.w = w;
         _this.h = h;
-        _this.myX = x * 32;
-        _this.myY = y * 32;
-        // w: 3 x h: 4
-        // [0] [1] [2]
-        // [3] [X] [5]
-        // [6] [X] [8]
-        // [9] [10] [11]
-        for (var i = 0; i < _this.slots.length; i++) {
+        for (var i = 0; i < w * h; i++) {
             var slot = new ItemSlot(_this.state, _this, i % _this.w, Math.floor(i / _this.w));
             _this.addChild(slot);
-            _this.slots[i] = slot;
         }
-        _this.state = state;
         _this.game.add.existing(_this);
         return _this;
     }
@@ -550,6 +547,11 @@ var InventoryPanel = /** @class */ (function (_super) {
     };
     InventoryPanel.prototype.dissapear = function () {
         this.visible = !this.visible;
+    };
+    InventoryPanel.prototype.update = function () {
+        this.children.forEach(function (child) {
+            child.update();
+        }, this);
     };
     return InventoryPanel;
 }(Phaser.Graphics));
@@ -563,14 +565,23 @@ var ItemSlot = /** @class */ (function (_super) {
         var graphics = state.add.graphics();
         graphics.beginFill(0x808080, 0.5);
         graphics.lineStyle(1, 0x000000, 1);
-        graphics.drawRect(x * 32 + panel.myX, y * 32 + panel.myY, w * 32, h * 32);
+        graphics.drawRect(0, 0, w * 32, h * 32);
         graphics.endFill();
-        _this = _super.call(this, state.game, x * 32 + panel.myX, y * 32 + panel.myY, graphics.generateTexture()) || this;
+        _this = _super.call(this, state.game, x * 32, y * 32, graphics.generateTexture()) || this;
         _this.graphics = graphics;
         _this.graphics.clear();
         _this.game.add.existing(_this);
         return _this;
     }
+    ItemSlot.prototype.update = function () {
+        for (var i = 0; i < boot_1.global.resources.length; i++) {
+            if (this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w] &&
+                boot_1.global.resources[i].type == this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w].type) {
+                this.tint = boot_1.global.resources[i].color;
+                break;
+            }
+        }
+    };
     return ItemSlot;
 }(Phaser.Sprite));
 

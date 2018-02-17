@@ -1,21 +1,17 @@
 import { Inventory } from "./player";
+import { global } from "./boot";
 
 
 export class InventoryPanel extends Phaser.Graphics {
 
-    private inventory: Inventory;
-
-    private slots: Array<ItemSlot>
+    public inventory: Inventory;
 
     private freeSlotLast: number;
 
     private state: Phaser.State;
 
-    private w: number;
-    private h: number;
-
-    public myX: number;
-    public myY: number;
+    public w: number;
+    public h: number;
 
     private bgColor: number;
 
@@ -25,45 +21,32 @@ export class InventoryPanel extends Phaser.Graphics {
 
         super(state.game);
 
+        this.x = x * 32;
+        this.y = y * 32;
+
         this.state = state;
 
         this.bgColor = 0x696969;
 
         this.beginFill(0x808080, 0.5);
         this.lineStyle(4, this.bgColor);
-        this.drawRect(x * 32, y * 32, 32 * w, 32 * h);
+        this.drawRect(0, 0, 32 * w, 32 * h);
         this.endFill();
 
         this.inventory = inventory;
 
         this.freeSlotLast = 0;
 
-        this.slots = new Array<ItemSlot>(w * h);
-
         this.w = w;
         this.h = h;
 
-        this.myX = x * 32;
-        this.myY = y * 32;
-
-        // w: 3 x h: 4
-
-        // [0] [1] [2]
-        // [3] [X] [5]
-        // [6] [X] [8]
-        // [9] [10] [11]
-
-        for (let i = 0; i < this.slots.length; i++) {
+        for (let i = 0; i < w * h; i++) {
 
             let slot = new ItemSlot(this.state, this, i % this.w, Math.floor(i / this.w));
             this.addChild(slot);
-            this.slots[i] = slot;
         }
 
-        this.state = state;
-
         this.game.add.existing(this);
-
     }
 
     getIndex2D(x: number, w: number, y: number) {
@@ -76,11 +59,22 @@ export class InventoryPanel extends Phaser.Graphics {
 
     }
 
+    update() {
+
+        this.children.forEach(function (child: ItemSlot) {
+
+            child.update();
+
+        }, this)
+
+    }
+
 }
 
 class ItemSlot extends Phaser.Sprite {
 
     private color: number;
+    public parent: InventoryPanel;
 
     public graphics: Phaser.Graphics;
 
@@ -90,15 +84,31 @@ class ItemSlot extends Phaser.Sprite {
 
         graphics.beginFill(0x808080, 0.5);
         graphics.lineStyle(1, 0x000000, 1);
-        graphics.drawRect(x * 32 + panel.myX, y * 32 + panel.myY, w * 32, h * 32);
+        graphics.drawRect(0, 0, w * 32, h * 32);
         graphics.endFill();
 
-        super(state.game, x * 32 + panel.myX, y * 32 + panel.myY, graphics.generateTexture());
+        super(state.game, x * 32, y * 32, graphics.generateTexture());
 
         this.graphics = graphics;
         this.graphics.clear();
 
         this.game.add.existing(this);
+    }
+
+    update() {
+
+        for (let i = 0; i < global.resources.length; i++) {
+
+            if (this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w] &&
+                global.resources[i].type == this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w].type) {
+
+                this.tint = global.resources[i].color;
+                break;
+
+            }
+
+        }
+
     }
 
 }
