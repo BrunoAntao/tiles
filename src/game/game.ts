@@ -5,8 +5,10 @@ import { Resource } from "./resource";
 import { RandomDataGenerator } from "phaser-ce";
 import { Wall } from "./wall";
 import { Factory } from "./factory";
+import { InventoryPanel } from "./ui";
 
 export var player: Player;
+let inventoryPanel: InventoryPanel;
 
 export class gameState extends Phaser.State {
 
@@ -19,7 +21,10 @@ export class gameState extends Phaser.State {
 
     //player: Player;
 
+    private ctrls;
+
     resources: Array<Resource>;
+
 
     preload() {
 
@@ -53,6 +58,9 @@ export class gameState extends Phaser.State {
                 case 'ç':
                     player.equipped = new ProductData('pickaxe', new RecipeData(new Array<Object>()), 0, 0, 5);
                     break;
+                case 'i':
+                    inventoryPanel.dissapear();
+                    break;
 
             }
 
@@ -84,6 +92,8 @@ export class gameState extends Phaser.State {
         this.randomWalls(5);
 
         this.randomFactories(3);
+
+        inventoryPanel = new InventoryPanel(this, 15, 2, 30 - (15 + 1), 16 - (2 + 2), 30, player.inventory);
 
     }
 

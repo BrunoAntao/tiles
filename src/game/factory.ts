@@ -13,9 +13,14 @@ export class Factory extends Phaser.Graphics {
         this.resourceData = data;
 
         this.lineStyle(2, data.color);
-        this.drawRect(-32 / 2, -32 / 2, 32, 32);
+        this.drawRect(0, 0, 32, 32);
 
-        this.addChild(this.game.add.text(-32 / 4, -32 / 2, "F"));
+        let text = this.game.add.text(0, 0, "F");
+        text.boundsAlignH = "center";
+        text.boundsAlignV = "middle";
+        text.setTextBounds(0, 0, 32, 32);
+
+        this.addChild(text);
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.immovable = true;
