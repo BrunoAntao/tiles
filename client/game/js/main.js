@@ -138,6 +138,8 @@ var resourcesData_1 = __webpack_require__(3);
 var resource_1 = __webpack_require__(4);
 var wall_1 = __webpack_require__(5);
 var factory_1 = __webpack_require__(6);
+var ui_1 = __webpack_require__(7);
+var inventoryPanel;
 var gameState = /** @class */ (function (_super) {
     __extends(gameState, _super);
     function gameState() {
@@ -164,6 +166,9 @@ var gameState = /** @class */ (function (_super) {
                 case 'ç':
                     exports.player.equipped = new resourcesData_1.ProductData('pickaxe', new resourcesData_1.RecipeData(new Array()), 0, 0, 5);
                     break;
+                case 'i':
+                    inventoryPanel.dissapear();
+                    break;
             }
         });
         this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -183,6 +188,8 @@ var gameState = /** @class */ (function (_super) {
         this.randomResources(20);
         this.randomWalls(5);
         this.randomFactories(3);
+        inventoryPanel = new ui_1.InventoryPanel(this, 15, 2, 30 - (15 + 1), 16 - (2 + 2), 30, exports.player.inventory);
+        inventoryPanel.dissapear();
     };
     gameState.prototype.update = function () {
         this.game.physics.arcade.overlap(exports.player, this.resourcesGroup, function (player, resource) {
@@ -405,10 +412,10 @@ var Resource = /** @class */ (function (_super) {
     }
     Resource.prototype.playerCanGet = function (p) {
         switch (this.resourceData.type) {
-            case 'wood':
-                return true;
             case 'stone':
                 return p.equipped && p.equipped.type === 'pickaxe' && p.equipped.power >= this.resourceData.hardness;
+            default:
+                return true;
         }
     };
     return Resource;
@@ -487,6 +494,85 @@ var Factory = /** @class */ (function (_super) {
     return Factory;
 }(Phaser.Graphics));
 exports.Factory = Factory;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var InventoryPanel = /** @class */ (function (_super) {
+    __extends(InventoryPanel, _super);
+    //30 x 16
+    function InventoryPanel(state, x, y, w, h, slots, inventory) {
+        var _this = _super.call(this, state.game) || this;
+        _this.state = state;
+        _this.bgColor = 0x696969;
+        _this.beginFill(0x808080, 0.5);
+        _this.lineStyle(4, _this.bgColor);
+        _this.drawRect(x * 32, y * 32, 32 * w, 32 * h);
+        _this.endFill();
+        _this.inventory = inventory;
+        _this.freeSlotLast = 0;
+        _this.slots = new Array(w * h);
+        _this.w = w;
+        _this.h = h;
+        _this.myX = x * 32;
+        _this.myY = y * 32;
+        // w: 3 x h: 4
+        // [0] [1] [2]
+        // [3] [X] [5]
+        // [6] [X] [8]
+        // [9] [10] [11]
+        for (var i = 0; i < _this.slots.length; i++) {
+            var slot = new ItemSlot(_this.state, _this, i % _this.w, Math.floor(i / _this.w));
+            _this.addChild(slot);
+            _this.slots[i] = slot;
+        }
+        _this.state = state;
+        _this.game.add.existing(_this);
+        return _this;
+    }
+    InventoryPanel.prototype.getIndex2D = function (x, w, y) {
+        return x * w + y;
+    };
+    InventoryPanel.prototype.dissapear = function () {
+        this.visible = !this.visible;
+    };
+    return InventoryPanel;
+}(Phaser.Graphics));
+exports.InventoryPanel = InventoryPanel;
+var ItemSlot = /** @class */ (function (_super) {
+    __extends(ItemSlot, _super);
+    function ItemSlot(state, panel, x, y, w, h) {
+        if (w === void 0) { w = 1; }
+        if (h === void 0) { h = 1; }
+        var _this = this;
+        var graphics = state.add.graphics();
+        graphics.beginFill(0x808080, 0.5);
+        graphics.lineStyle(1, 0x000000, 1);
+        graphics.drawRect(x * 32 + panel.myX, y * 32 + panel.myY, w * 32, h * 32);
+        graphics.endFill();
+        _this = _super.call(this, state.game, x * 32 + panel.myX, y * 32 + panel.myY, graphics.generateTexture()) || this;
+        _this.graphics = graphics;
+        _this.graphics.clear();
+        _this.game.add.existing(_this);
+        return _this;
+    }
+    return ItemSlot;
+}(Phaser.Sprite));
 
 
 /***/ })

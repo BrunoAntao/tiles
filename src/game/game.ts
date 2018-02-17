@@ -94,6 +94,7 @@ export class gameState extends Phaser.State {
         this.randomFactories(3);
 
         inventoryPanel = new InventoryPanel(this, 15, 2, 30 - (15 + 1), 16 - (2 + 2), 30, player.inventory);
+        inventoryPanel.dissapear();
 
     }
 

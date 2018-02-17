@@ -55,8 +55,9 @@ export class InventoryPanel extends Phaser.Graphics {
 
         for (let i = 0; i < this.slots.length; i++) {
 
-            this.slots[i] = new ItemSlot(this.state, this, i % this.w, Math.floor(i / this.w));
-
+            let slot = new ItemSlot(this.state, this, i % this.w, Math.floor(i / this.w));
+            this.addChild(slot);
+            this.slots[i] = slot;
         }
 
         this.state = state;
@@ -73,11 +74,6 @@ export class InventoryPanel extends Phaser.Graphics {
 
         this.visible = !this.visible;
 
-        for (let i = 0; i < this.slots.length; i++) {
-
-            this.slots[i].toggleVisible();
-
-        }
     }
 
 }
@@ -92,27 +88,17 @@ class ItemSlot extends Phaser.Sprite {
 
         let graphics = state.add.graphics();
 
-        // [0] [1] [2]
-        // [3] [X] [5]
-        // [6] [X] [8]
-        // [9] [X] [11]
-        // [12][13][14]
-        // [15][16][17]
-
         graphics.beginFill(0x808080, 0.5);
+        graphics.lineStyle(1, 0x000000, 1);
         graphics.drawRect(x * 32 + panel.myX, y * 32 + panel.myY, w * 32, h * 32);
         graphics.endFill();
 
         super(state.game, x * 32 + panel.myX, y * 32 + panel.myY, graphics.generateTexture());
 
         this.graphics = graphics;
+        this.graphics.clear();
 
         this.game.add.existing(this);
-    }
-
-    toggleVisible() {
-        this.graphics.visible = this.graphics.visible;
-        this.setTexture(this.graphics.generateTexture());
     }
 
 }

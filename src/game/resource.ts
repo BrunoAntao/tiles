@@ -13,10 +13,6 @@ export class Resource extends Phaser.Graphics {
         this.resourceData = data;
 
         this.beginFill(data.color);
-<<<<<<< HEAD
-
-=======
->>>>>>> 241f518d3412010b279813e7829591ba09468aeb
         this.drawRect(0, 0, 32, 32);
         this.endFill();
 
