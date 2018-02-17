@@ -16,8 +16,13 @@ export class Factory extends Phaser.Graphics {
         this.drawRect(0, 0, 32, 32);
 
         let text = this.game.add.text(0, 0, "F");
+<<<<<<< HEAD
+        text.boundsAlignH = "center";
+        text.boundsAlignV = "middle";
+=======
         text.boundsAlignH = 'center';
         text.boundsAlignV = 'middle';
+>>>>>>> 241f518d3412010b279813e7829591ba09468aeb
         text.setTextBounds(0, 0, 32, 32);
 
         this.addChild(text);

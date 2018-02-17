@@ -13,6 +13,10 @@ export class Resource extends Phaser.Graphics {
         this.resourceData = data;
 
         this.beginFill(data.color);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 241f518d3412010b279813e7829591ba09468aeb
         this.drawRect(0, 0, 32, 32);
         this.endFill();
 
@@ -21,10 +25,10 @@ export class Resource extends Phaser.Graphics {
 
     playerCanGet(p: Player) {
         switch (this.resourceData.type) {
-            case 'wood':
-                return true;
             case 'stone':
                 return p.equipped && p.equipped.type === 'pickaxe' && p.equipped.power >= this.resourceData.hardness;
+            default:
+                return true;
         }
     }
 

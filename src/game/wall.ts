@@ -7,6 +7,10 @@ export class Wall extends Phaser.Graphics {
         super(state.game, x, y);
 
         this.beginFill(color);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 241f518d3412010b279813e7829591ba09468aeb
         this.drawRect(0, 0, 32, 32);
         this.endFill();
 
