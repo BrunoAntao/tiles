@@ -61,10 +61,38 @@ export class gameState extends Phaser.State {
                     placeHolder: 'Quantity',
                     type: PhaserInput.InputType.number
                 }),
+            hardness: this.game.add.inputField(
+                this.game.width / 3 * 2,
+                this.game.height / 10 * 4, {
+                    font: '18px Arial',
+                    fill: '#212121',
+                    fontWeight: 'bold',
+                    width: 150,
+                    padding: 8,
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    borderRadius: 6,
+                    placeHolder: 'Hardness',
+                    type: PhaserInput.InputType.number
+                }),
+            tool: this.game.add.inputField(
+                this.game.width / 3 * 2,
+                this.game.height / 10 * 5, {
+                    font: '18px Arial',
+                    fill: '#212121',
+                    fontWeight: 'bold',
+                    width: 150,
+                    padding: 8,
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    borderRadius: 6,
+                    placeHolder: 'Tool',
+                    type: PhaserInput.InputType.text
+                }),
 
             color: this.game.add.inputField(
                 this.game.width / 3 * 2,
-                this.game.height / 10 * 4, {
+                this.game.height / 10 * 6, {
                     font: '18px Arial',
                     fill: '#212121',
                     fontWeight: 'bold',
@@ -93,7 +121,7 @@ export class gameState extends Phaser.State {
 
         }, this.menu.color);
 
-        let submit = new Submit(this, this.game.width / 3 * 2, this.game.height / 10 * 5);
+        let submit = new Submit(this, this.game.width / 3 * 2, this.game.height / 10 * 7);
 
     }
 
