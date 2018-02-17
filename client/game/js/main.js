@@ -526,13 +526,12 @@ var InventoryPanel = /** @class */ (function (_super) {
         _this.x = x * 32;
         _this.y = y * 32;
         _this.state = state;
-        _this.bgColor = 0x696969;
-        _this.beginFill(0x808080, 0.5);
-        _this.lineStyle(4, _this.bgColor);
+        _this.bgColor = 0x808080;
+        _this.beginFill(_this.bgColor, 0.05);
+        _this.lineStyle(4, 0x696969);
         _this.drawRect(0, 0, 32 * w, 32 * h);
         _this.endFill();
         _this.inventory = inventory;
-        _this.freeSlotLast = 0;
         _this.w = w;
         _this.h = h;
         for (var i = 0; i < w * h; i++) {
@@ -563,11 +562,16 @@ var ItemSlot = /** @class */ (function (_super) {
         if (h === void 0) { h = 1; }
         var _this = this;
         var graphics = state.add.graphics();
-        graphics.beginFill(0x808080, 0.5);
+        graphics.beginFill(0xFFFFFF, 1);
         graphics.lineStyle(1, 0x000000, 1);
         graphics.drawRect(0, 0, w * 32, h * 32);
         graphics.endFill();
         _this = _super.call(this, state.game, x * 32, y * 32, graphics.generateTexture()) || this;
+        _this.quantityText = _this.game.add.text(0, 0, '');
+        _this.quantityText.boundsAlignH = 'center';
+        _this.quantityText.boundsAlignV = 'top';
+        _this.quantityText.setTextBounds(0, 0, 32, 32);
+        _this.addChild(_this.quantityText);
         _this.graphics = graphics;
         _this.graphics.clear();
         _this.game.add.existing(_this);
@@ -575,10 +579,16 @@ var ItemSlot = /** @class */ (function (_super) {
     }
     ItemSlot.prototype.update = function () {
         for (var i = 0; i < boot_1.global.resources.length; i++) {
-            if (this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w] &&
-                boot_1.global.resources[i].type == this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w].type) {
+            var current = this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w];
+            if (current && boot_1.global.resources[i].type == current.type) {
                 this.tint = boot_1.global.resources[i].color;
+                this.alpha = 1;
+                this.quantityText.text = current.quantity.toString();
                 break;
+            }
+            else {
+                this.tint = this.parent.bgColor;
+                this.alpha = 0.05;
             }
         }
     };
