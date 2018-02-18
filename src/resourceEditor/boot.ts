@@ -19,8 +19,6 @@ export class bootState extends Phaser.State {
 
     preload() {
 
-        this.load.json('tiles', 'client/assets/tiles.json');
-
     }
 
     create() {

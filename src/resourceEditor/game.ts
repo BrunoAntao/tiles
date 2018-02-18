@@ -117,7 +117,7 @@ export class gameState extends Phaser.State {
 
         this.menu.color.focusOut.add(function () {
 
-            display.setColor(parseInt(this.value));
+            display.setColor(this.value.replace(/0x|#/, ''));
 
         }, this.menu.color);
 
