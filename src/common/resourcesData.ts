@@ -19,30 +19,14 @@ export class ResourceData {
 export class ProductData {
 
     public type: string;
-    public recipe: RecipeData;
-    public x: number;
-    public y: number;
+    public recipe: Array<object>;
     public power: number;
 
-    constructor(type: string, recipe: RecipeData, x: number = -1, y: number = -1, power: number = 1) {
+    constructor(type: string, recipe: Array<object>, power: number = 1) {
 
         this.recipe = recipe;
         this.type = type;
-        this.x = x;
-        this.y = y;
         this.power = power;
-
-    }
-
-}
-
-export class RecipeData {
-
-    required: Array<object>;
-
-    constructor(required: Array<object>) {
-
-        this.required = required;
 
     }
 

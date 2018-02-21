@@ -1,7 +1,7 @@
 import { socket, global } from "./boot";
 import { Player, InventoryItem } from "./player";
-import { ResourceData, ProductData, RecipeData } from "../resourceEditor/resourcesData";
-import { Resource } from "./resource";
+import { ResourceData, ProductData } from "../common/resourcesData";
+import { Resource, Recipe } from "./resource";
 import { RandomDataGenerator } from "phaser-ce";
 import { Wall } from "./wall";
 import { Factory } from "./factory";
@@ -56,12 +56,21 @@ export class gameState extends Phaser.State {
                     break;
 
                 case 'ç':
-                    player.equipped = new ProductData('pickaxe', new RecipeData(new Array<Object>()), 0, 0, 5);
+                    player.equipped = new ProductData('pickaxe', (new Array<Object>()), 5);
                     break;
                 case 'i':
                     inventoryPanel.dissapear();
                     break;
 
+                case '0':
+                    let reqs: Array<ResourceData> = new Array<ResourceData>();
+                    reqs.push(global.resources[0]);
+                    reqs.push(global.resources[0]);
+                    reqs.push(global.resources[0]);
+                    reqs.push(global.resources[1]);
+                    reqs.push(global.resources[1]);
+                    console.log(reqs);
+                    console.log(new Recipe(new ProductData('Santa Hanta', reqs)).canCreate(player));
             }
 
         })

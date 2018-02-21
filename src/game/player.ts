@@ -1,5 +1,5 @@
 import { Key } from "phaser-ce";
-import { ResourceData, ProductData } from "../resourceEditor/resourcesData";
+import { ResourceData, ProductData } from "../common/resourcesData";
 
 export class Player extends Phaser.Graphics {
 

@@ -1,4 +1,4 @@
-import { ResourceData } from "../resourceEditor/resourcesData";
+import { ResourceData } from "../common/resourcesData";
 
 export class Factory extends Phaser.Graphics {
 

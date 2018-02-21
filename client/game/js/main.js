@@ -167,11 +167,20 @@ var gameState = /** @class */ (function (_super) {
                     boot_1.socket.emit('capture', this.game.canvas.toDataURL());
                     break;
                 case 'ç':
-                    exports.player.equipped = new resourcesData_1.ProductData('pickaxe', new resourcesData_1.RecipeData(new Array()), 0, 0, 5);
+                    exports.player.equipped = new resourcesData_1.ProductData('pickaxe', (new Array()), 5);
                     break;
                 case 'i':
                     inventoryPanel.dissapear();
                     break;
+                case '0':
+                    var reqs = new Array();
+                    reqs.push(boot_1.global.resources[0]);
+                    reqs.push(boot_1.global.resources[0]);
+                    reqs.push(boot_1.global.resources[0]);
+                    reqs.push(boot_1.global.resources[1]);
+                    reqs.push(boot_1.global.resources[1]);
+                    console.log(reqs);
+                    console.log(new resource_1.Recipe(new resourcesData_1.ProductData('Santa Hanta', reqs)).canCreate(exports.player));
             }
         });
         this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -364,26 +373,15 @@ var ResourceData = /** @class */ (function () {
 }());
 exports.ResourceData = ResourceData;
 var ProductData = /** @class */ (function () {
-    function ProductData(type, recipe, x, y, power) {
-        if (x === void 0) { x = -1; }
-        if (y === void 0) { y = -1; }
+    function ProductData(type, recipe, power) {
         if (power === void 0) { power = 1; }
         this.recipe = recipe;
         this.type = type;
-        this.x = x;
-        this.y = y;
         this.power = power;
     }
     return ProductData;
 }());
 exports.ProductData = ProductData;
-var RecipeData = /** @class */ (function () {
-    function RecipeData(required) {
-        this.required = required;
-    }
-    return RecipeData;
-}());
-exports.RecipeData = RecipeData;
 
 
 /***/ }),
@@ -403,6 +401,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var player_1 = __webpack_require__(2);
 var Resource = /** @class */ (function (_super) {
     __extends(Resource, _super);
     function Resource(state, data, x, y) {
@@ -425,6 +424,51 @@ var Resource = /** @class */ (function (_super) {
     return Resource;
 }(Phaser.Graphics));
 exports.Resource = Resource;
+var Recipe = /** @class */ (function () {
+    function Recipe(data) {
+        this.data = data;
+        this.required = new Array();
+        for (var i = 0; i < data.recipe.length; i++) {
+            var e = data.recipe[i];
+            var found = false;
+            for (var index = 0; index < this.required.length; index++) {
+                if (this.required[index].type === e.type) {
+                    found = true;
+                    this.required[index].quantity++;
+                    break;
+                }
+            }
+            if (!found) {
+                this.required.push(new player_1.InventoryItem(e.type, 1));
+            }
+        }
+    }
+    Recipe.prototype.canCreate = function (p) {
+        var items = p.inventory.items;
+        if (items.length <= 0) {
+            return false;
+        }
+        for (var i = 0; i < this.required.length; i++) {
+            var r = this.required[i];
+            var found = false;
+            for (var index = 0; index < items.length; index++) {
+                var item = items[index];
+                if (r.type === item.type) {
+                    found = true;
+                    if (r.quantity > item.quantity) {
+                        return false;
+                    }
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    };
+    return Recipe;
+}());
+exports.Recipe = Recipe;
 
 
 /***/ }),
