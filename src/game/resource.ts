@@ -1,8 +1,8 @@
-import { ResourceData, ProductData } from "../common/resourcesData";
+import { ResourceData, RecipeData } from "../common/resourcesData";
 import { Physics } from "phaser-ce";
-import { Player, InventoryItem } from "./player";
+import { Player, ItemCount } from "./player";
 
-export class Resource extends Phaser.Graphics {
+export class GameResource extends Phaser.Graphics {
 
     resourceData: ResourceData;
 
@@ -30,16 +30,16 @@ export class Resource extends Phaser.Graphics {
 
 }
 
-export class Recipe {
+export class GameRecipe {
 
-    data: ProductData;
+    data: RecipeData;
 
-    required: Array<InventoryItem>;
+    required: Array<ItemCount>;
 
-    constructor(data: ProductData) {
+    constructor(data: RecipeData) {
         this.data = data;
 
-        this.required = new Array<InventoryItem>();
+        this.required = new Array<ItemCount>();
 
         for (let i = 0; i < data.recipe.length; i++) {
             let e = data.recipe[i];
@@ -55,7 +55,7 @@ export class Recipe {
             }
 
             if (!found) {
-                this.required.push(new InventoryItem(e.type, 1));
+                this.required.push(new ItemCount(e.type, 1));
             }
 
         }
@@ -64,7 +64,7 @@ export class Recipe {
 
     canCreate(p: Player) {
 
-        let items: Array<InventoryItem> = p.inventory.items;
+        let items: Array<ItemCount> = p.inventory.items;
 
         if (items.length <= 0) {
             return false;

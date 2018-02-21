@@ -1,4 +1,4 @@
-import { Inventory, InventoryItem } from "./player";
+import { Inventory, ItemCount } from "./player";
 import { global } from "./boot";
 
 
@@ -105,7 +105,7 @@ class ItemSlot extends Phaser.Sprite {
 
         for (let i = 0; i < global.resources.length; i++) {
 
-            let current: InventoryItem = this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w];
+            let current: ItemCount = this.parent.inventory.items[this.x / 32 + this.y / 32 * this.parent.w];
 
             if (current && global.resources[i].type == current.type) {
 

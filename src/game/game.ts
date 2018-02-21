@@ -1,7 +1,7 @@
 import { socket, global } from "./boot";
-import { Player, InventoryItem } from "./player";
-import { ResourceData, ProductData } from "../common/resourcesData";
-import { Resource, Recipe } from "./resource";
+import { Player, ItemCount } from "./player";
+import { ResourceData, RecipeData } from "../common/resourcesData";
+import { GameResource, GameRecipe } from "./resource";
 import { RandomDataGenerator } from "phaser-ce";
 import { Wall } from "./wall";
 import { Factory } from "./factory";
@@ -12,19 +12,15 @@ let inventoryPanel: InventoryPanel;
 
 export class gameState extends Phaser.State {
 
-    resourcesData: Array<ResourceData>;
-
     playerGroup: Phaser.Group;
     resourcesGroup: Phaser.Group;
     factoriesGroup: Phaser.Group;
     wallsGroup: Phaser.Group;
 
-    //player: Player;
-
     private ctrls;
 
-    resources: Array<Resource>;
-
+    resources: Array<GameResource>;
+    recipes: Array<GameRecipe>;
 
     preload() {
 
@@ -56,21 +52,15 @@ export class gameState extends Phaser.State {
                     break;
 
                 case 'ç':
-                    player.equipped = new ProductData('pickaxe', (new Array<Object>()), 5);
+                    player.equipped = new RecipeData('pickaxe', (new Array<Object>()), 5);
                     break;
                 case 'i':
                     inventoryPanel.dissapear();
                     break;
 
                 case '0':
-                    let reqs: Array<ResourceData> = new Array<ResourceData>();
-                    reqs.push(global.resources[0]);
-                    reqs.push(global.resources[0]);
-                    reqs.push(global.resources[0]);
-                    reqs.push(global.resources[1]);
-                    reqs.push(global.resources[1]);
-                    console.log(reqs);
-                    console.log(new Recipe(new ProductData('Santa Hanta', reqs)).canCreate(player));
+                    console.log(global.recipes[0]);
+                    console.log(this.recipes[0].canCreate(player));
             }
 
         })
@@ -82,7 +72,7 @@ export class gameState extends Phaser.State {
         this.factoriesGroup = this.game.add.group();
         this.wallsGroup = this.game.add.group();
 
-        this.resources = new Array<Resource>();
+        this.resources = new Array<GameResource>();
 
         this.playerGroup.enableBody = true;
         this.resourcesGroup.enableBody = true;
@@ -94,8 +84,21 @@ export class gameState extends Phaser.State {
 
         this.game.world.bringToTop(this.playerGroup);
 
-        this.resourcesData = this.cache.getJSON('resources');
-        global.resources = this.resourcesData;
+        global.resources = this.cache.getJSON('resources');
+        global.recipes = new Array<RecipeData>();
+
+        this.recipes = new Array<GameRecipe>();
+
+        /// TESTS ONLY
+        let reqs: Array<ResourceData> = new Array<ResourceData>();
+        reqs.push(global.resources[0]);
+        reqs.push(global.resources[0]);
+        reqs.push(global.resources[0]);
+        reqs.push(global.resources[1]);
+        reqs.push(global.resources[1]);
+        global.recipes[0] = new RecipeData('Santa Hanta', reqs);
+        this.recipes[0] = new GameRecipe(global.recipes[0]);
+        ///
 
         this.randomResources(20);
 
@@ -113,7 +116,7 @@ export class gameState extends Phaser.State {
         this.game.physics.arcade.overlap(player, this.resourcesGroup, function (player, resource) {
 
             if (resource.playerCanGet(player)) {
-                let ii: InventoryItem = new InventoryItem(resource.resourceData.type, resource.resourceData.quantity);
+                let ii: ItemCount = new ItemCount(resource.resourceData.type, resource.resourceData.quantity);
                 player.inventory.add(ii);
                 resource.kill();
             }
@@ -156,8 +159,8 @@ export class gameState extends Phaser.State {
         for (let i = 0; i < count; i++) {
 
             let pos = this.getRandomXY32();
-            let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-            let r = new Resource(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32);
+            let rIndex: number = this.state.game.rnd.integerInRange(0, global.resources.length - 1);
+            let r = new GameResource(this, global.resources[rIndex], pos.x * 32, pos.y * 32);
             this.resources.push(r);
             this.resourcesGroup.add(r);
 
@@ -170,8 +173,8 @@ export class gameState extends Phaser.State {
         for (let i = 0; i < count; i++) {
 
             let pos = this.getRandomXY32();
-            let rIndex: number = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-            this.factoriesGroup.add(new Factory(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32));
+            let rIndex: number = this.state.game.rnd.integerInRange(0, global.resources.length - 1);
+            this.factoriesGroup.add(new Factory(this, global.resources[rIndex], pos.x * 32, pos.y * 32));
 
         }
     }

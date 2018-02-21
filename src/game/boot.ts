@@ -1,4 +1,5 @@
 import { gameState } from "./game";
+import { ResourceData, RecipeData } from "../common/resourcesData";
 
 export class Game extends Phaser.Game {
 
@@ -37,7 +38,8 @@ export class bootState extends Phaser.State {
 
 export var global = {
 
-    resources : []
+    resources: Array<ResourceData>(),
+    recipes: Array<RecipeData>()
 
 };
 

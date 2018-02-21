@@ -5,7 +5,7 @@ export class ResourceData {
     public quantity: number;
     public hardness: number;
 
-    constructor(color: number, type: string, hardness: number, quantity: number) {
+    constructor(color: number, type: string, hardness: number = 1, quantity: number = 1) {
 
         this.type = type;
         this.color = color;
@@ -16,13 +16,13 @@ export class ResourceData {
 
 }
 
-export class ProductData {
+export class RecipeData {
 
     public type: string;
     public recipe: Array<object>;
     public power: number;
 
-    constructor(type: string, recipe: Array<object>, power: number = 1) {
+    constructor(type: string, recipe: Array<object> = new Array<object>(), power: number = 1) {
 
         this.recipe = recipe;
         this.type = type;

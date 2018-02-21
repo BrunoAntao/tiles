@@ -110,7 +110,8 @@ var bootState = /** @class */ (function (_super) {
 }(Phaser.State));
 exports.bootState = bootState;
 exports.global = {
-    resources: []
+    resources: Array(),
+    recipes: Array()
 };
 exports.socket = io();
 window.onload = function () {
@@ -167,20 +168,14 @@ var gameState = /** @class */ (function (_super) {
                     boot_1.socket.emit('capture', this.game.canvas.toDataURL());
                     break;
                 case 'ç':
-                    exports.player.equipped = new resourcesData_1.ProductData('pickaxe', (new Array()), 5);
+                    exports.player.equipped = new resourcesData_1.RecipeData('pickaxe', (new Array()), 5);
                     break;
                 case 'i':
                     inventoryPanel.dissapear();
                     break;
                 case '0':
-                    var reqs = new Array();
-                    reqs.push(boot_1.global.resources[0]);
-                    reqs.push(boot_1.global.resources[0]);
-                    reqs.push(boot_1.global.resources[0]);
-                    reqs.push(boot_1.global.resources[1]);
-                    reqs.push(boot_1.global.resources[1]);
-                    console.log(reqs);
-                    console.log(new resource_1.Recipe(new resourcesData_1.ProductData('Santa Hanta', reqs)).canCreate(exports.player));
+                    console.log(boot_1.global.recipes[0]);
+                    console.log(this.recipes[0].canCreate(exports.player));
             }
         });
         this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -196,8 +191,19 @@ var gameState = /** @class */ (function (_super) {
         exports.player = new player_1.Player(this, 32, 16, 16);
         this.playerGroup.add(exports.player);
         this.game.world.bringToTop(this.playerGroup);
-        this.resourcesData = this.cache.getJSON('resources');
-        boot_1.global.resources = this.resourcesData;
+        boot_1.global.resources = this.cache.getJSON('resources');
+        boot_1.global.recipes = new Array();
+        this.recipes = new Array();
+        /// TESTS ONLY
+        var reqs = new Array();
+        reqs.push(boot_1.global.resources[0]);
+        reqs.push(boot_1.global.resources[0]);
+        reqs.push(boot_1.global.resources[0]);
+        reqs.push(boot_1.global.resources[1]);
+        reqs.push(boot_1.global.resources[1]);
+        boot_1.global.recipes[0] = new resourcesData_1.RecipeData('Santa Hanta', reqs);
+        this.recipes[0] = new resource_1.GameRecipe(boot_1.global.recipes[0]);
+        ///
         this.randomResources(20);
         this.randomWalls(5);
         this.randomFactories(3);
@@ -207,7 +213,7 @@ var gameState = /** @class */ (function (_super) {
     gameState.prototype.update = function () {
         this.game.physics.arcade.overlap(exports.player, this.resourcesGroup, function (player, resource) {
             if (resource.playerCanGet(player)) {
-                var ii = new player_1.InventoryItem(resource.resourceData.type, resource.resourceData.quantity);
+                var ii = new player_1.ItemCount(resource.resourceData.type, resource.resourceData.quantity);
                 player.inventory.add(ii);
                 resource.kill();
             }
@@ -233,8 +239,8 @@ var gameState = /** @class */ (function (_super) {
     gameState.prototype.randomResources = function (count) {
         for (var i = 0; i < count; i++) {
             var pos = this.getRandomXY32();
-            var rIndex = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-            var r = new resource_1.Resource(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32);
+            var rIndex = this.state.game.rnd.integerInRange(0, boot_1.global.resources.length - 1);
+            var r = new resource_1.GameResource(this, boot_1.global.resources[rIndex], pos.x * 32, pos.y * 32);
             this.resources.push(r);
             this.resourcesGroup.add(r);
         }
@@ -242,8 +248,8 @@ var gameState = /** @class */ (function (_super) {
     gameState.prototype.randomFactories = function (count) {
         for (var i = 0; i < count; i++) {
             var pos = this.getRandomXY32();
-            var rIndex = this.state.game.rnd.integerInRange(0, this.resourcesData.length - 1);
-            this.factoriesGroup.add(new factory_1.Factory(this, this.resourcesData[rIndex], pos.x * 32, pos.y * 32));
+            var rIndex = this.state.game.rnd.integerInRange(0, boot_1.global.resources.length - 1);
+            this.factoriesGroup.add(new factory_1.Factory(this, boot_1.global.resources[rIndex], pos.x * 32, pos.y * 32));
         }
     };
     return gameState;
@@ -318,15 +324,15 @@ var Player = /** @class */ (function (_super) {
     return Player;
 }(Phaser.Graphics));
 exports.Player = Player;
-var InventoryItem = /** @class */ (function () {
-    function InventoryItem(type, quantity) {
+var ItemCount = /** @class */ (function () {
+    function ItemCount(type, quantity) {
         if (quantity === void 0) { quantity = 1; }
         this.type = type;
         this.quantity = quantity;
     }
-    return InventoryItem;
+    return ItemCount;
 }());
-exports.InventoryItem = InventoryItem;
+exports.ItemCount = ItemCount;
 var Inventory = /** @class */ (function () {
     function Inventory() {
         this.items = new Array();
@@ -364,6 +370,8 @@ exports.Inventory = Inventory;
 Object.defineProperty(exports, "__esModule", { value: true });
 var ResourceData = /** @class */ (function () {
     function ResourceData(color, type, hardness, quantity) {
+        if (hardness === void 0) { hardness = 1; }
+        if (quantity === void 0) { quantity = 1; }
         this.type = type;
         this.color = color;
         this.quantity = quantity;
@@ -372,16 +380,17 @@ var ResourceData = /** @class */ (function () {
     return ResourceData;
 }());
 exports.ResourceData = ResourceData;
-var ProductData = /** @class */ (function () {
-    function ProductData(type, recipe, power) {
+var RecipeData = /** @class */ (function () {
+    function RecipeData(type, recipe, power) {
+        if (recipe === void 0) { recipe = new Array(); }
         if (power === void 0) { power = 1; }
         this.recipe = recipe;
         this.type = type;
         this.power = power;
     }
-    return ProductData;
+    return RecipeData;
 }());
-exports.ProductData = ProductData;
+exports.RecipeData = RecipeData;
 
 
 /***/ }),
@@ -402,9 +411,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var player_1 = __webpack_require__(2);
-var Resource = /** @class */ (function (_super) {
-    __extends(Resource, _super);
-    function Resource(state, data, x, y) {
+var GameResource = /** @class */ (function (_super) {
+    __extends(GameResource, _super);
+    function GameResource(state, data, x, y) {
         var _this = _super.call(this, state.game, x, y) || this;
         _this.resourceData = data;
         _this.beginFill(data.color);
@@ -413,7 +422,7 @@ var Resource = /** @class */ (function (_super) {
         state.add.existing(_this);
         return _this;
     }
-    Resource.prototype.playerCanGet = function (p) {
+    GameResource.prototype.playerCanGet = function (p) {
         switch (this.resourceData.type) {
             case 'stone':
                 return p.equipped && p.equipped.type === 'pickaxe' && p.equipped.power >= this.resourceData.hardness;
@@ -421,11 +430,11 @@ var Resource = /** @class */ (function (_super) {
                 return true;
         }
     };
-    return Resource;
+    return GameResource;
 }(Phaser.Graphics));
-exports.Resource = Resource;
-var Recipe = /** @class */ (function () {
-    function Recipe(data) {
+exports.GameResource = GameResource;
+var GameRecipe = /** @class */ (function () {
+    function GameRecipe(data) {
         this.data = data;
         this.required = new Array();
         for (var i = 0; i < data.recipe.length; i++) {
@@ -439,11 +448,11 @@ var Recipe = /** @class */ (function () {
                 }
             }
             if (!found) {
-                this.required.push(new player_1.InventoryItem(e.type, 1));
+                this.required.push(new player_1.ItemCount(e.type, 1));
             }
         }
     }
-    Recipe.prototype.canCreate = function (p) {
+    GameRecipe.prototype.canCreate = function (p) {
         var items = p.inventory.items;
         if (items.length <= 0) {
             return false;
@@ -466,9 +475,9 @@ var Recipe = /** @class */ (function () {
         }
         return true;
     };
-    return Recipe;
+    return GameRecipe;
 }());
-exports.Recipe = Recipe;
+exports.GameRecipe = GameRecipe;
 
 
 /***/ }),

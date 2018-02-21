@@ -1,5 +1,5 @@
 import { Key } from "phaser-ce";
-import { ResourceData, ProductData } from "../common/resourcesData";
+import { ResourceData, RecipeData } from "../common/resourcesData";
 
 export class Player extends Phaser.Graphics {
 
@@ -12,7 +12,7 @@ export class Player extends Phaser.Graphics {
 
     public inventory: Inventory;
 
-    public equipped: ProductData;
+    public equipped: RecipeData;
 
     constructor(state: Phaser.State, diameter: number = 32, x: number, y: number) {
 
@@ -93,7 +93,7 @@ export class Player extends Phaser.Graphics {
 
 }
 
-export class InventoryItem {
+export class ItemCount {
 
     public type: string;
     public quantity: number;
@@ -108,15 +108,15 @@ export class InventoryItem {
 
 export class Inventory {
 
-    public items: Array<InventoryItem>;
+    public items: Array<ItemCount>;
 
     constructor() {
 
-        this.items = new Array<InventoryItem>();
+        this.items = new Array<ItemCount>();
 
     }
 
-    add(item: InventoryItem) {
+    add(item: ItemCount) {
 
         console.log(this.items);
 
@@ -130,7 +130,7 @@ export class Inventory {
         this.items.push(item);
     }
 
-    use(item: InventoryItem, quantity: number = item.quantity) {
+    use(item: ItemCount, quantity: number = item.quantity) {
 
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].type === item.type) {
